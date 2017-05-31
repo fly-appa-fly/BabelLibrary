@@ -1,0 +1,212 @@
+Mereźi komputerovi
+demkivsky.is@gmail.com
+
+
+16.feb.17
+Lekciia #1
+Mereźevyi rivenn
+	cili:
+		zrozumity pryncypy za iakymy funkcionuiutt słuźby mereźevoho rivnia
+			marśrutyzaciia
+			modeli obsłuhovuvannia mer. rivnia
+			iak praciuie matśrutyzator
+			prosuvannia danych v porivnianni z marśrutyzaciieiu
+			śyrokomovna i bahatoadresna peredaća
+		konkretyzuvaty realizaciiu v internet
+
+	Mer. riv
+		peremiśćuie segment vid hosta vidpravnyka do hosta oderźuvaća
+		na storoni vidpravnyka inkapsuluie koźen segment v deitagramu
+		na storoni oderźuvaća, dostavlaie segmenty na transportnyi rivenn
+		protokoly mereźevoho rivnia praciuiutt na koźnomu hosti i marśrutyzatori
+		marśrutyzator pereviriaie pola zahołovkiv vsich deitagram, iaki prochodiatt ćerez nioho
+	Dvi klućovi funk. mer. riv.
+		prosuvannia danych(forwarding) - peremiśćennia paketiv, iaki nadiiśly na vchidnyi interfeis marśrutyzatora do vidpovidnoho vychidnoho interfeisu
+		marśrutyzaciia(routing) - vyznaćennia marśrutu paketiv do vidpravnyka do oderźuvaća(algorytmy marśrutyzaciï)
+
+		analogiia: marśrutyzaciia - składannia marśrutu poïzdky z vidpravnoï toćky v toćky pryznaćennia, iakyi składaiett sia z poslidovnisti perechrestt; prosuvannia danych - proces podołannia odnoho perechrestia(pryiniattia riśennia, kudy povernuty)
+
+	Vzaiemodiia miź marśrutz. i prosuvanniam(schema)
+		algorytm marśrutyzaciï vyznaćaie marśrut vid vidpravnyka do oderźuvaća
+		tablycia prosuvannia danych vyznaćaie lokalne peremiśćennia paketiv na marśrutyzatori
+	Vstanovlennia zjadnannia
+		tretia vaźlyva funkciia mereźevoho rivnia, iaka realizovana v deiakych mereźevych architekturach: atm, frame rellay, x.25
+		do poćatku peredaći deitagram, potribno, śćob vsi marśrutyzatory na ślachu sliduvannia vstanovyly virtualne zjadnannia(procedura rukostyskannia) odyn z odnym
+		porivniannia słłuźb vstanovlennia zjadnannia mereźevoho i transp. riv:
+			mereźevyi miź dvoma hostamy
+			transp. miź dvoma procesamy
+
+	Modela mereź. obsłuhovuvannia
+		iaka servisna model vykor. pid ćas transp. deitag. vid vidpravnyka do oderźuvaća?
+			prykład serviciv dla okremych deitag.: garantovana dostavka; garant. dost. z zatrymkoiu menś. niź (40) mls.
+			prykład servisiv dla potoku deitag.: zbereźennia poriadku dostavky deitag.; garantovana min. propusk. zdat.; obeźuie zminu intervału miź paketamy(pakety nadchodiatt na oderźuvać z tymy samymy intervałamy, śćo vony buły nadisłani)
+
+	Modeli obsłuhovuvannia mereź. riv.
+		m. architk.		servis. mod.	garantiï											identyf. perevantaź
+										prop. zdat	vids. vtr.	zber.poriad.	ćas.dost
+		internet		negar. dost.	ni			ni			ni				ni			ni(na osnovi vtrat)
+		atm				EBR				gar. st. śv./tak		tak				tak			perevant. vidsutni
+		atm				VBR				gar. svyd	tak			tak 			tak		.....
+
+	Servisu, iaki mereź. riv. nadaie transportnomu
+		pry rozrob servisiv, mereź rivnia portibno vrachuvaty:
+			servisu mereź riv. ne moiutt zaleźaty vid tech. merśrutyzatora
+			transp. riv povynen buty nezaleźnym vid k-sti, tyou, topologiï prysutnich pidmereź z marśturyzatoramy
+			mereź. servisy, dostupni transp. rivniu, povynni vykorystovyvaty iedynu systemu numeraciï, navitt miź lokalnymy i globalnymy mereźamy(naskrizna adresaciia
+	słuźba z i bez vstanovl. zjadnannia
+		słuźbu virt. kanaliv naz. merezevoiu słuźb z vstan. zjad
+		deitagramnu słuźbu naz. mereźevoiu słuźb bez vstan. zjed
+		analigićno tcp/udp(z vstan zjed/bez vstan zjed), słuźby transportnoho rivnia, ale
+			słuźba: miź dvoma hostamy(host-to-host)
+			nema vyboru: mereźa zabezpećuie abo odnu abo inśu 
+			realizaciia: v iadri mereźi
+
+	Słüźba virtualnych kanaliv
+		paketna mereźa z virtualnymy kanałamy bahato v ćomu podibno do telefonnoï mereźi
+			v iakii zamistt 'virtualnych kanaliv' vykorystovuiutt sia 'realni kanalu'
+
+		ideia virt. kanaliv: zapobihannia vyboru vłasnoho marśrutu dla koźnoho paketa
+			marśrut vid ðereła do punktu pryznaćennia vybyraiett sia v procesi vstanovlennia zjednannia
+				zberihaiett sia v spec. tablyciach na marśrutyzatorach
+				veß ślach vid marś. vidpravnyka do marś. oderźuvaća povynen buty vstanovlenyi do poćatku peredaći
+				odtn mrśrut vykorystovuiett sia dla vsioho trafiku, śćo vychodytt
+
+	Realizaciia virt. kan
+		virt kanał skaładaiett sia z:
+			marśrutu, po iakomu vsi pakety peredaiutt sia
+			nomera virt. kanalu
+				po odnimu dla koźnoï liniïzvjazku, śćo utv. marśrut
+			zapysamy v tabł. translaciï v marś. na ślachu
+		vidpravnyk peresyłaie pakety z vidpovidnymy numeranmy virt. kanału(a ne adr. pryznaćennia
+			u koźnoï liniï ie svii numer virt. kanału
+		pry prochoðennia paketa ćerez marśrutyzator .........
+	Tablycia translaciï numeriv virt kanałü(schema)
+	virtualni kanalu sygnalni protokoly
+		vykor. dla vstanovlennia, pidtrymannia ta rozryvu virt. kanału
+		vykorystovuiuttsia v atm, frame relay
+		ne vykor v suc. interneti
+	deitagramni mereźi
+		nemaie poperadnioho vstanovlennia zjed na mereźevomu rivni
+		marśrutzt. ne mistytt inf. pro stan VC
+		pakety perenapravlaiutt sia za dopomohoiu adresy vuzła pryznaćennia(aznaćena v paketi)
+			vykor. tablyci prosuvannia deitagram v marśrutyzatorach
+	
+23.feb.17
+Lekciia #2
+Ohlad architektury marśrutyzatora
+	dvi klućovi funk marśr.
+		zapuskaie algorytmy marś./protokoł(rip, ospf, bgp)
+		peredaie deitagramy z vchidnoï na vychidnu liniiu
+
+Funkciï vchidnoho portu:
+	phizyćnyi rivenn
+		oderźannia bitiv
+	dani kanalnoho rivnia
+		dla vzaiemodiï z kanalnym riznem na inśii storoni liniï
+	decentralizovana komutaciia
+		vrachovuiućy adresu pryznaćennia deitagramy, śukaie vychidnyi port vykorystovuiućy lokalnutablyciu perenapravlennia v pamjati vchidnoho portu
+		cil: zdiisnyty obrobku v vcidnomu porti na 'śvydkosti liniï' (zaverśyty pośuk ).....
+
+KOmuaciinyi blok
+	perdaie paket z vch bufera u bidpovidnyi vych buf
+	śvydkistt komutaciï: śvydkistt, z iakoiu pakety moźutt buty peredani vis vchodiv do vychodiv
+	try variianty realizaciï komutaciinoho bloka
+
+Komutaciia z vykor. pamjati
+	perśi pokolinnia marśrt.
+		zvyćaini komp, v iakych komut zdiisniuvała sia pid bezposerednim kontrolem CP
+		paker kopii z vchid portu v pamjatt proc
+		proc zćyt adr oderźuv, śuk vidpov vych port v tabl prosuv danych i kopii paket v bufer vych portu
+		śvyd obmeźena prop zdat pamjat (deitagramy dvići vykor systemnu śynu)
+
+Komut z vykor śyny
+	deitag peremiść sia vid pamjati vchid portu do pamjti vych portu ćerez zahal śynu
+		marś. proc ne pryim ućastt v perenosi paketu
+		za odyn ćasu po śyni moźe perenos tilky 1 paket
+	śvyd : śvyd kom obmeźena prop zdat śyny
+	śyna 32 gbit/s cisco 5600 dostatnia svud ...
+
+Kom z vyk społuć mereźi
+	odna z moźl podołaty obmeź prop zdat zah. śyny
+		spoćatku bułä rozrob dla zjed proc...
+	vdoskonalena konstr
+		deitag z vchid portu peremiść po hor śyni do peretynu z vert śynoiu, śćo vede do potrib vych portu
+		iakśćo vert śyna vilna, deitag peren u vych port
+
+Vych porty
+	vymahaie sia buferyzaciia, na vyp koly deitagramy pryb z komutac bloku zi śvyd, iaka perev 
+		pakety moźutt buty ztraćeni ćerez perevantaź buf
+	vybir nast paketa z bufera dla peredaći ..
+	plan prioryt..
+
+Ćerhy na vych portach
+	pakety buferyz, koly śvyd nadchoð paketiv z komut bloku perevyść śvyd vychi liniï
+	ćerhy (zatrymky) i vtraty ćerez perepov bufera vychid portu
+
+Ćerhy na vchid portach
+	iakśco prop zdat. komut bloku nedost vysoka(por z vchid lin), to moźutt vynykaty ćerhy na vch portach
+		ćerhy i vtrat ćerez perep. vchi blok
+	blokuvannia hołovy ćerhy(HOL) paket , śćo stoïtt u vchid ćerzi povynen ćekaty, choća ioho vchid port vilnyi....
+
+Mereźevyi rivenn internetu
+	funk mereź rivnia hostiv i marśrutyz
+		mereź rivenn:
+			protokoly merśrutz : vybir ślachu; RIP, OSPF, BGP
+			tablycia prosuvannia
+			protokoł ip: uhoda pro adresuciia, format deitagr, uhoda pro obrobku paketiv
+			....
+FOrmat ip-deitagramy(ipv4)
+	numre versiï ip-protkołä, dovźyna zahołovka v baitach(zazvyć - 20 baitiv), typ słuźby(zaraz ne vykor za priamym pryznaćenniam), dovź deitagramy, 16-rozriad identyf, prapory, zsuv fragmenta(13 bit) - ci try parametry vykor dla fragmentaciï zbyrannia,  ttl(maks k0stt perechodiv, iaka zmenś na koźnomu perechodi), protokoł verchnioho rivnia(tcp, udp), kontrolna suma zahołovka, ip-adresa vidpravnyka(32 bit), ip adresa oderźuvaća(32 bit), parametry(iakśćo ie), dani(zminna zovźyna, typava dla tcp abo udp-segmenta, moźe mistyty povidomlennia protokołu icmp))
+	Iakia vytraty: 20+ bait TCP zahałovka + 20+ baitiv IP zahołovka + korysne navandaźennia
+
+Fragmentaciï IP-deitagramy
+	max k-stt danych, iaku moźe perenosyty kadr kanał riznia, naz Maxymal odynyceiu peredaći (MTU - maximumtransfer unit)
+		rizni typy kanaliv maiutt rizni mtu
+	velyki ip-deitag rozbuvaiutt sia (fragmentuiutt sia na menś)
+	....
+
+Fragmentaciia ip deitag; prykład
+	deitagrama 4000 bait
+	mtu = 1500 bait
+	=> dovźyna=4000, id=x, prapor=0,zsuv=0 => odna velyka deitag rozbyvaie sia na dekilka deitag:
+			=> dovźyna=1500, id=x, prapor=1,zsuv=0
+			=> dovźyna=1500, id=x, prapor=1,zsuv=1500
+			=> dovźyna=1500, id=x, prapor=0,zsuv=3000
+
+ip-adresaciia. vstup
+	ip-adresa: 32-bitnyi identyfikator interfeisu hosta i marśrutz.
+	interfeis: zvjazok miź hostom/marśrutx i fizyćnoiu liniieiu
+		marśrtz zazvyćai maiutt kilka interfeisiv
+		host zazvyćai maie odyn abo dva intref
+	ip-adresy, povjazani z koźnym interfeisom
+		vsi interfeisy hostiv i marśrtz v interneti maiutt ip-adresy
+
+	iakym ćynom zazvyć zjed interfeisy?
+	my dinaiemo sia pro ce v nastupnych temach
+	providni interf. zjed za dopomohoiu ethernet komutatoriv
+
+Pidmereźi
+	ip adresa skład z dvoch ćastyn
+		starśi rozriady vyznać adresu mereźi
+		mołodśi rozriady - adresy hostiv pidmereźi
+
+	pidmereźa:
+		interfeisy prystroïv z odnakovymy starśymy rozriadamy ip-adres
+		moźutt fizyćno zvjaz sia odyn z odnym, bez promiźnoho marśrutz
+
+	recept
+		dla vyznaćennia pidmereźi, vidjednaite koźen interf vid ioho hosta abo marśrtz, utvoriuiućy ostrivky izol. mereź.....
+		budd-iaka izol mereźa naz 
+
+ip-adresaciia
+standart cidr
+CIDR(classless inter-domain routing) - bezklasova marśrtz
+	ćastyna adresy, iaka vidnosytt sia do adresy pidmrź, moźe buty dovilniö dovź(ne obovjaz kratna 8)
+	format adresy a,b,c,d/x, de x - k-stt bitiv, iaki vidnosiatt sia do adresy pidmrź
+		: 200.23.15.0/23
+	notaciia /23 naz maskoiu pidmrź
+	sami ........
+	....
+	
+18.mar.17
+Lekciia

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if query %}Search{% else %}Library{% endif %}</title>
+</head>
+<body>
+<h3><a href="{% url 'library:index' %}">Library</a></h3>
+<form action="." method="get">
+    <label for="q">Search: </label>
+    <input type="text" name="q", value="{{ query|escape }}">
+    <input type="submit" value="Search">
+</form>
+{% if query %}
+    Result
+{% endif %}
+{% if books %}
+    <ul>
+    {% for book in books %}
+        <li><a href="{% url 'library:detail' book.id %}">{{ book.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>There are no books.</p>
+{% endif %}
+{% if books.has_other_pages %}
+  <ul class="pagination">
+    {% if books.has_previous %}
+      <li><a href="?page={{ books.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in books.paginator.page_range %}
+      {% if books.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if books.has_next %}
+      <li><a href="?page={{ books.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</body>
+</html>

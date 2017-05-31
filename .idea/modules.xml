@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/BabelLibrary.iml" filepath="$PROJECT_DIR$/.idea/BabelLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Gravity/.idea/Gravity.iml" filepath="$PROJECT_DIR$/../Gravity/.idea/Gravity.iml" />
+    </modules>
+  </component>
+</project>

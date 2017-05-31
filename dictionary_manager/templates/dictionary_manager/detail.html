@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">script</script>
+    <title>{{ word.word.title }}</title>
+</head>
+<h3>{{ word.word.title }}</h3> <br>
+{% for defins in word.definitions.all %}
+    {{ defins.type }}<br>
+    {% for defin in defins.definitions.all %}
+        {{ defin.definition }}<br>
+    {% endfor %}
+{% endfor %}
+</body>
+</html>

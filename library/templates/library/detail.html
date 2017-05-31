@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">script</script>
+    <title>{{ book.title }}</title>
+</head>
+<body>
+<img src="{{ book.cover.url }}"/> <br>
+<h3>{{ book.title }}</h3> <br>
+<b>{{ book.author }}</b> <br>
+<b>Tags:</b>
+<ul>
+{% for tag in book.tags.all %}
+    <li>{{ tag }}</li>
+{% endfor %}
+</ul>
+<b>Annotation:</b><br>
+{{ book.annotation }} <br>
+<button onClick="alert('You clicked the button using Javascript.');">
+       Click Me - I run Javascript
+</button>
+<a href="{% url 'reader:open' book.id %}">Open</a>
+</body>
+</html>
