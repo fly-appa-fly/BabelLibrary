@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">script</script>
-    <title>{{ word.word.title }}</title>
-</head>
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">script</script>#}
+{#    <title>{{ word.word.title }}</title>#}
+{#</head>#}
+{% extends 'library/base.html' %}
+
+{% block title %}
+{{ word.word.title }}
+{% endblock %}
+
+{% block content %}
+
 <h3>{{ word.word.title }}</h3> <br>
 {% for defins in word.definitions.all %}
     {{ defins.type }}<br>
@@ -12,5 +20,7 @@
         {{ defin.definition }}<br>
     {% endfor %}
 {% endfor %}
-</body>
-</html>
+{% endblock %}
+{#</body>#}
+{#</html>#}
+

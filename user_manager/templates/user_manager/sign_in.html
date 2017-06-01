@@ -1,12 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Title</title>#}
+{#</head>#}
+{#<body>#}
 {#  {% extends "website-base.html" %} #}
-{% block main %}
+{% extends 'library/base.html' %}
+
+{% block title %}
+Sign in
+{% endblock %}
+
+{% block content %}
     <div id="login">
         <form class="form-horizontal" name="LoginForm" action="/user/login/" method="post"post>
         {% csrf_token %}
@@ -33,5 +39,6 @@
         </form>
     </div>
 {% endblock %}
-</body>
-</html>
+
+{#</body>#}
+{#</html>#}

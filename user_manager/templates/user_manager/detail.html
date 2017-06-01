@@ -1,0 +1,24 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title></title>#}
+{#</head>#}
+{#<body>#}
+{% extends 'library/base.html' %}
+
+{% block title %}
+{{ user.first_name }} {{ user.last_name }}
+{% endblock %}
+
+{% block content %}
+{% if user.profile.avatar %}
+    <img src="{{ user.profile.avatar.url }}"/> <br>
+{% endif %}
+{{ request.user.username }}
+{% if user == request.user %}
+    ssss
+{% endif %}
+{% endblock %}
+{#</body>#}
+{#</html>#}

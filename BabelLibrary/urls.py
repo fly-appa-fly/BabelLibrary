@@ -21,8 +21,7 @@ urlpatterns = [
     url(r'^reader/', include('reader.urls')),
     url(r'^dict/', include('dictionary_manager.urls')),
     url(r'^user/', include('user_manager.urls')),
-    url(r'^vocabulary_manager/', include('vocabulary_manager.urls')),
-    url(r'^testing_module/', include('testing_module.urls')),
+    url(r'^vocabulary/', include('vocabulary_manager.urls')),
     url(r'^admin/', admin.site.urls),
     #url(r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': BASE_DIR}),
 ]

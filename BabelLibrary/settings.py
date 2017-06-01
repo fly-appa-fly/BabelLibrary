@@ -124,7 +124,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = '/user/login'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 

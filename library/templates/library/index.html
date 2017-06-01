@@ -1,11 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% if query %}Search{% else %}Library{% endif %}</title>
-</head>
-<body>
-<h3><a href="{% url 'library:index' %}">Library</a></h3>
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>{% if query %}Search{% else %}Library{% endif %}</title>#}
+{#</head>#}
+{#<body>#}
+{% extends 'library/base.html' %}
+
+{% block title %}
+{% if query %}Search{% else %}Library{% endif %}
+{% endblock %}
+
+{% block content %}
 <form action="." method="get">
     <label for="q">Search: </label>
     <input type="text" name="q", value="{{ query|escape }}">
@@ -44,5 +50,6 @@
     {% endif %}
   </ul>
 {% endif %}
-</body>
-</html>
+{% endblock %}
+{#</body>#}
+{#</html>#}

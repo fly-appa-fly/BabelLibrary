@@ -45,7 +45,6 @@ def author(request, author_id):
 
 
 def detail(request, book_id):
-    previus_url = request.META.get('HTTP_REFERER')
     book = get_object_or_404(Book, pk=book_id)
     context = {
         'book': book,

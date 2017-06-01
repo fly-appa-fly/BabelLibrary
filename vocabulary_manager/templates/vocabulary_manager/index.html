@@ -1,14 +1,7 @@
-{#<!DOCTYPE html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <title></title>#}
-{#</head>#}
-{#<body>#}
 {% extends 'library/base.html' %}
 
 {% block title %}
-{% if query %}Search{% else %}Dictionary{% endif %}
+{% if query %}Search{% else %}Vocabulary{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -23,7 +16,7 @@
 {% if words %}
     <ul>
     {% for word in words %}
-        <li><a href="{% url 'dict:detail' word.id %}">{{ word.word }}</a></li>
+        <li><a href="{% url 'dict:detail' word.word.id %}">{{ word.word }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
@@ -51,5 +44,3 @@
   </ul>
 {% endif %}
 {% endblock %}
-{#</body>#}
-{#</html>#}
