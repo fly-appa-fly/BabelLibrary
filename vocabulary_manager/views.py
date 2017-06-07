@@ -12,12 +12,11 @@ def index(request):
     if query:
         qset = (
             Q(word__icontains=query),
-            Q(user=request.user)
         )
-        results = Word.objects.filter(qset).distinct()
+        results = VocabularyWord.objects.filter(qset).distinct().filter(user=request.user)
 
     else:
-        results = VocabularyWord.objects.order_by('word')
+        results = VocabularyWord.objects.filter(user=request.user).order_by('word')
 
     page = request.GET.get('page', 1)
     paginator = Paginator(results, 100)

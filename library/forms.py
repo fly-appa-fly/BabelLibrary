@@ -25,7 +25,7 @@ class BookForm(ModelForm):
         model = Book
         fields = ('title', 'tags', 'language', 'cover', 'content', 'annotation', 'private')
 
-class Author(ModelForm):
+class AuthorForm(ModelForm):
     class Meta:
         model = Author
         fields = ('first_name', 'last_name')

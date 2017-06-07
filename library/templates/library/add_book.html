@@ -18,7 +18,7 @@ Adding new book
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            {{ form2.as_p }}
+            {{ form1.as_p }}
             <button type="submit">Save changes</button>
         </form>
     </div>

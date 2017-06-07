@@ -26,21 +26,55 @@
 {% endblock %}
 
 {% block content %}
-    {% if book.cover %}
-        <img src="{{ book.cover.url }}"/> <br>
-    {% endif %}
-    <h3>{{ book.title }}</h3> <br>
-    <b>{{ book.author }}</b> <br>
-    <b>Tags:</b>
-    <ul>
-        {% for tag in book.tags.all %}
-            <li>{{ tag }}</li>
-        {% endfor %}
-    </ul>
-    <b>Annotation:</b><br>
-    {{ book.annotation }} <br>
-    <button onClick="alert('You clicked the button using Javascript.');">
-       Click Me - I run Javascript
-    </button>
-    <a href="{% url 'reader:open' book.id %}">Open</a>
+    <div class="content">
+        {% if edit %}
+            <a href="{% url 'library:edit' book.id %}">
+                Edit this book
+            </a><br>
+        {% endif %}
+        <h3>{{ book.title }} {% if book.private %}(private){% endif %}</h3> <br>
+        {% if book.cover %}
+            <img src="{{ book.cover.url }}"/> <br>
+        {% endif %}
+
+        <b>Author: {{ book.author }}</b> <br>
+        <b>Tags:</b>
+        <ul>
+            {% for tag in book.tags.all %}
+                <li>{{ tag }}</li>
+            {% endfor %}
+        </ul>
+        <b>Annotation:</b><br>
+        {{ book.annotation }} <br>
+    {#    <button onClick="">#}
+    {#       Add to favourites#}
+    {#    </button> <br>#}
+
+        <a href="{% url 'library:list' 'Favourite' book.id %}">
+            {% if fav %}
+                Remove from favourite
+            {% else %}
+                Add to favourite
+            {% endif %}
+        </a><br>
+        <a href="{% url 'library:list' 'Future' book.id %}">
+            {% if fut %}
+                Remove from list for future reading
+            {% else %}
+                Add to read later list
+            {% endif %}
+        </a><br>
+        {% if read %}
+            <a href="{% url 'reader:open' book.id %}">
+                Continue reading
+            </a><br>
+            <a href="{% url 'library:list' 'Reading' book.id %}">
+                Quit reading
+            </a><br>
+        {% else %}
+            <a href="{% url 'library:list' 'Reading' book.id %}">
+                Start reading
+            </a><br>
+        {% endif %}
+    </div>
 {% endblock %}

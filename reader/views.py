@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -18,6 +18,8 @@ def index(request):
 
 def open_book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
+    if book.private and request.user != book.publisher:
+        return redirect('/')
     context = {
         'book': book
     }
