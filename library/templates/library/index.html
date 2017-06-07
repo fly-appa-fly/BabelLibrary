@@ -8,48 +8,96 @@
 {% extends 'library/base.html' %}
 
 {% block title %}
-{% if query %}Search{% else %}Library{% endif %}
+    {% if query %}Search{% else %}Library{% endif %}
+{% endblock %}
+
+{% block style %}
+    <style>
+        .content {
+            width: 70%;
+            display: block;
+            white-space: pre-line;
+            margin: auto;
+        }
+        form {
+            width: 70%;
+            margin: auto;
+        }
+        .gallery {
+            width: 70%;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            padding: 0;
+        }
+        .gallery-item {
+            width: 125px;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 125px;
+            object-fit: cover;
+        }
+
+        .gallery-item-caption {
+            text-align: center;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<form action="." method="get">
-    <label for="q">Search: </label>
-    <input type="text" name="q", value="{{ query|escape }}">
-    <input type="submit" value="Search">
-</form>
-{% if query %}
-    Result
-{% endif %}
-{% if books %}
-    <ul>
-    {% for book in books %}
-        <li><a href="{% url 'library:detail' book.id %}">{{ book.title }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>There are no books.</p>
-{% endif %}
-{% if books.has_other_pages %}
-  <ul class="pagination">
-    {% if books.has_previous %}
-      <li><a href="?page={{ books.previous_page_number }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
+    <form action="." method="get">
+        <input type="text" name="q", value="{{ query|escape }}">
+        <input type="submit" value="Search">
+    </form>
+    {% if query %}
+        Result
     {% endif %}
-    {% for i in books.paginator.page_range %}
-      {% if books.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
-    {% if books.has_next %}
-      <li><a href="?page={{ books.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-  </ul>
-{% endif %}
+    <div class="gallery">
+        {% if books %}
+            {% for book in books %}
+                <figure class="gallery-item">
+                    {% if book.cover %}
+                        <img src="{{ book.cover.url }}"/> <br>
+                    {% endif %}
+                    <figcaption class="gallery-item-caption">
+                        <a href="{% url 'library:detail' book.id %}">{{ book.title }}</a></li>
+                    </figcaption>
+                </figure>
+            {% endfor %}
+        {% else %}
+            <p>There are no books.</p>
+        {% endif %}
+    </div>
+    <div class="content">
+        {% if books.has_other_pages %}
+            <ul class="pagination">
+                {% if books.has_previous %}
+                    <li><a href="?page=1">1</a></li>
+                    <li><a href="?page={{ books.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in page_range %}
+                    {% if books.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if books.has_next %}
+                    <li><a href="?page={{ books.next_page_number }}">&raquo;</a></li>
+                    <li><a href="?page={{ last }}">last</a></li>
+                {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
 {% endblock %}
 {#</body>#}
 {#</html>#}

@@ -11,14 +11,27 @@
 {{ user.first_name }} {{ user.last_name }}
 {% endblock %}
 
+{% block style %}
+    <style>
+        .content {
+            width: 70%;
+            margin: auto;
+        }
+        img {
+            width: 20%;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-{% if user.profile.avatar %}
-    <img src="{{ user.profile.avatar.url }}"/> <br>
-{% endif %}
-{{ request.user.username }}
-{% if user == request.user %}
-    ssss
-{% endif %}
+    <div class="content">
+        {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}"/> <br>
+        {% endif %}
+        {% if user == request.user %}
+            ssss
+        {% endif %}
+    </div>
 {% endblock %}
 {#</body>#}
 {#</html>#}

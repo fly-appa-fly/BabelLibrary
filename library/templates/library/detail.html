@@ -9,27 +9,38 @@
 {% extends 'library/base.html' %}
 
 {% block title %}
-  {{ book.title }}
+    {{ book.title }}
+{% endblock %}
+
+{% block style %}
+    <style>
+        .content {
+            width: 70%;
+            margin: auto;
+        }
+
+        img {
+            width: 40%;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
     {% if book.cover %}
-<img src="{{ book.cover.url }}"/> <br>
-{% endif %}
+        <img src="{{ book.cover.url }}"/> <br>
+    {% endif %}
     <h3>{{ book.title }}</h3> <br>
-<b>{{ book.author }}</b> <br>
-<b>Tags:</b>
-<ul>
-{% for tag in book.tags.all %}
-    <li>{{ tag }}</li>
-{% endfor %}
-</ul>
-<b>Annotation:</b><br>
-{{ book.annotation }} <br>
-{#<button onClick="alert('You clicked the button using Javascript.');">#}
-{#       Click Me - I run Javascript#}
-{#</button>#}
-<a href="{% url 'reader:open' book.id %}">Open</a>
+    <b>{{ book.author }}</b> <br>
+    <b>Tags:</b>
+    <ul>
+        {% for tag in book.tags.all %}
+            <li>{{ tag }}</li>
+        {% endfor %}
+    </ul>
+    <b>Annotation:</b><br>
+    {{ book.annotation }} <br>
+    <button onClick="alert('You clicked the button using Javascript.');">
+       Click Me - I run Javascript
+    </button>
+    <a href="{% url 'reader:open' book.id %}">Open</a>
 {% endblock %}
-{#</body>#}
-{#</html>#}

@@ -3,6 +3,7 @@ from datetime import datetime
 from user_manager.models import Language
 from django.contrib.auth.models import User
 
+
 class Author(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
@@ -25,9 +26,10 @@ class Book(models.Model):
     publisher = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     pub_date = models.DateTimeField(auto_now_add=True, blank=True, editable=False)
     language = models.ForeignKey(Language, on_delete=models.PROTECT)
-    cover = models.ImageField(null=True, blank=True, upload_to="covers")
+    cover = models.ImageField(null=True, blank=True, upload_to="covers", default='covers/generic-book-cover.jpg')
     content = models.FileField(upload_to="books")
     annotation = models.TextField(default='Annotation is absent')
+    private = models.BooleanField(default=False)
 
     def __str__(self):
         return '"%s" by %s' % (self.title, self.author)

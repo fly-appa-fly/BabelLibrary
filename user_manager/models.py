@@ -6,10 +6,12 @@ from django.db.models.signals import post_save
 
 class Language(models.Model):
     eng_name = models.CharField(max_length=200)
-    #is_active = models.BooleanField(default=False, null=True)
+    translation_to = models.ManyToManyField('self')
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.eng_name
+
 
 
 class Profile(models.Model):

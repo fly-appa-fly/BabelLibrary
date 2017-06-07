@@ -1,0 +1,25 @@
+{% extends 'library/base.html' %}
+
+{% block title %}
+Adding new book
+{% endblock %}
+
+{% block style %}
+    <style>
+        .content {
+            width: 70%;
+            margin: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {{ form2.as_p }}
+            <button type="submit">Save changes</button>
+        </form>
+    </div>
+{% endblock %}

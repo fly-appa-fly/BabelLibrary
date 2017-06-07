@@ -14,9 +14,37 @@
 {{ book.title }}
 {% endblock %}
 
+{% block style %}
+<style>
+.word {
+    color: Black;
+}
+
+.word:hover {
+    color: Red;
+}
+
+.learning {
+    background: Yellow;
+}
+.content {
+    width: 70%;
+    height: 85vh !important;
+    border: dashed;
+    border-color: red;
+    display: block;
+    white-space: pre-line;
+    margin: auto;
+    overflow: auto;
+    overflow-y: scroll;
+    overflow: hidden;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 {% csrf_token %}
-    <div id="text" style="display: block; white-space: pre-line;">
+    <div id="text" class="content">
         {{ book.content.read }}
     </div>
 

@@ -37,14 +37,14 @@ def get_word(request, word):
         #
         # r1 = requests.get(url, headers = {'app_id': app_id, 'app_key': app_key})
         word = word.lower()
-        word_object = None
+        word_object = []
         words = Word.objects.filter(word__contains=word)
         for w in words:
             if (word == w.word) or (word == w.word+'s') or (word == w.word+'es') or (word == w.word+'d') or (word == w.word+'ed'):
-                word_object = w
-                break
+                word_object.append(w)
         data = ''
-        if word_object is not None:
+        if word_object is not []:
+
             for defins in word_object.definitions.all().order_by('pk'):
                 data += defins.type + ' <br>'
                 for defin in defins.definitions.all().order_by('pk'):

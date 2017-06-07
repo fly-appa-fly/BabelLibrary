@@ -4,43 +4,56 @@
 {% if query %}Search{% else %}Vocabulary{% endif %}
 {% endblock %}
 
+{% block style %}
+    <style>
+        .content {
+            width: 70%;
+            margin: auto;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-<form action="." method="get">
-    <label for="q">Search: </label>
-    <input type="text" name="q", value="{{ query|escape }}">
-    <input type="submit" value="Search">
-</form>
-{% if query %}
-    Result
-{% endif %}
-{% if words %}
-    <ul>
-    {% for word in words %}
-        <li><a href="{% url 'dict:detail' word.word.id %}">{{ word.word }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>There are no words.</p>
-{% endif %}
-{% if words.has_other_pages %}
-  <ul class="pagination">
-    {% if words.has_previous %}
-      <li><a href="?page={{ words.previous_page_number }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in words.paginator.page_range %}
-      {% if words.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
-    {% if words.has_next %}
-      <li><a href="?page={{ words.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-  </ul>
-{% endif %}
+    <div class="content">
+        <form action="." method="get">
+            <label for="q">Search: </label>
+            <input type="text" name="q", value="{{ query|escape }}">
+            <input type="submit" value="Search">
+        </form>
+        {% if query %}
+            Result
+        {% endif %}
+        {% if words %}
+            <ul>
+            {% for word in words %}
+                <li><a href="{% url 'dict:detail' word.word.id %}">{{ word.word }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are no words.</p>
+        {% endif %}
+        {% if words.has_other_pages %}
+          <ul class="pagination">
+            {% if words.has_previous %}
+                <li><a href="?page=1">1</a></li>
+                <li><a href="?page={{ words.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+              <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in page_range %}
+              {% if words.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if words.has_next %}
+                <li><a href="?page={{ words.next_page_number }}">&raquo;</a></li>
+                <li><a href="?page={{ last }}">last</a></li>
+            {% else %}
+              <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+          </ul>
+        {% endif %}
+    </div>
 {% endblock %}

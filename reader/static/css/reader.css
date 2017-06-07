@@ -9,3 +9,10 @@
 .chosen {
     color: Blue;
 }
+
+.content {
+
+    display: block;
+    white-space: pre-line;
+
+}

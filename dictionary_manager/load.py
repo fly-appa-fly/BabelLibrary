@@ -2,10 +2,9 @@ from xml.dom import minidom
 
 
 def load():
-    doc = minidom.parse('oxford.xdxf')
+    doc = minidom.parse('eng-ukr.xdxf')
     words = doc.getElementsByTagName('ar')
     print(len(words))
-    c = False
     word = words[0]
 
     def get_all_text(node):
@@ -17,25 +16,15 @@ def load():
                 if child_node.nodeType != child_node.TEXT_NODE:
                     if child_node.tagName == 'k':
                         print('k')
-                        c = False
-                    elif child_node.tagName == 'c':
-                        print('c')
+                        print(child_node.firstChild.data.lower())
+                    elif child_node.tagName == 'pos':
+                        print('pos')
                         print(child_node.firstChild.firstChild.data)
-                        c = True
-                    elif child_node.tagName == 'b':
-                        print('b')
-                        c = False
+                    else:
+                        text_string += get_all_text(child_node.firstChild)
                 else:
-                    if get_all_text(child_node) != '\n':
+                    text_string += child_node.data
 
-                        print('enter')
-
-                        text = get_all_text(child_node).split('\n')
-                        for t in text[1:]:
-                            if t != '':
-                                if c == True:
-                                    print('c')
-                                print('a ' +t+'\n')
 
             return text_string
 

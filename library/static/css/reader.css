@@ -9,3 +9,19 @@
 .chosen {
     color: Blue;
 }
+
+.content {
+    width: 60%;
+    height: 95%;
+    border: dashed;
+    border-color: red;
+    display: block;
+    white-space: pre-line;
+
+}
+.p {
+    width: 60%;
+    height: 95%;
+    border: dashed;
+    border-color: red;
+}

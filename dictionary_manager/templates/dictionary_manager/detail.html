@@ -11,15 +11,31 @@
 {{ word.word.title }}
 {% endblock %}
 
-{% block content %}
+{% block style %}
+    <style>
+        .content {
+            width: 70%;
+            margin: auto;
+            white-space: pre-line;
+        }
+    </style>
+{% endblock %}
 
-<h3>{{ word.word.title }}</h3> <br>
-{% for defins in word.definitions.all %}
-    {{ defins.type }}<br>
-    {% for defin in defins.definitions.all %}
-        {{ defin.definition }}<br>
-    {% endfor %}
-{% endfor %}
+{% block content %}
+    <div class="content">
+        <h3>{{ word.word.title }}</h3> <br>
+        {% for defins in word.definitions.all %}
+            {{ defins.type }}<br>
+            {% for defin in defins.definitions.all %}
+                {{ defin.definition }}<br>
+            {% endfor %}
+        {% endfor %}
+
+        {% for trans in word.translations.all %}
+            <b>Translation to {{ trans.translation_to }}:</b>
+            {{ trans.translation }}
+        {% endfor %}
+    </div>
 {% endblock %}
 {#</body>#}
 {#</html>#}

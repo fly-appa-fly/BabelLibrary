@@ -12,8 +12,17 @@
 Sign in
 {% endblock %}
 
+{% block style %}
+    <style>
+        .content {
+            width: 70%;
+            margin: auto;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-    <div id="login">
+    <div id="login" class="content">
         <form class="form-horizontal" name="LoginForm" action="/user/login/" method="post"post>
         {% csrf_token %}
         {% if next %}

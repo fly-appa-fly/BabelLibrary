@@ -29,7 +29,15 @@ def index(request):
     except EmptyPage:
         words = paginator.page(paginator.num_pages)
 
+    index_ = words.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index_ - 3 if index_ >=3 else 0
+    end_index = index_ + 4 if index_ <= max_index - 4 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+
     context = {
-        'words': words
+        'words': words,
+        'page_range': page_range,
+        'last': max_index
     }
     return render(request, 'dictionary_manager/index.html', context)
