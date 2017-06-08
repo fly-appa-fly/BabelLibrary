@@ -28,9 +28,17 @@
         {% if user.profile.avatar %}
             <img src="{{ user.profile.avatar.url }}"/> <br>
         {% endif %}
+        {{ user.first_name }} {{ user.last_name }} ({{ user }}) <br>
         {% if user == request.user %}
-            ssss
+            {{ user.email }}<br>
         {% endif %}
+        <b>About:</b><br>
+        {{ user.profile.bio }}<br>
+        <h3>Lists</h3>
+        <a href="{% url 'library:list' 'Favourite' %}">Favourites</a><br>
+        <a href="{% url 'library:list' 'Future' %}">For future</a><br>
+        <a href="{% url 'library:list' 'Reading' %}">Reading</a><br>
+        <a href="{% url 'library:private' %}">Private</a><br>
     </div>
 {% endblock %}
 {#</body>#}

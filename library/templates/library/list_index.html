@@ -1,0 +1,94 @@
+{% extends 'library/base.html' %}
+
+{% block title %}
+    {% if query %}Search{% else %}{{ list_name }}{% endif %}
+{% endblock %}
+
+{% block style %}
+    <style>
+        .content {
+            width: 70%;
+            display: block;
+            white-space: pre-line;
+            margin: auto;
+        }
+        form {
+            width: 70%;
+            margin: auto;
+        }
+        .gallery {
+            width: 70%;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            padding: 0;
+        }
+        .gallery-item {
+            width: 125px;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 125px;
+            object-fit: cover;
+        }
+
+        .gallery-item-caption {
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <form action="." method="get">
+        <input type="text" name="q", value="{{ query|escape }}">
+        <input type="submit" value="Search">
+    </form>
+    {% if query %}
+        Result
+    {% endif %}
+    <div class="gallery">
+        {% if elements %}
+            {% for elem in elements %}
+                <figure class="gallery-item">
+                    {% if elem.book.cover %}
+                        <img src="{{ elem.book.cover.url }}"/> <br>
+                    {% endif %}
+                    <figcaption class="gallery-item-caption">
+                        <a href="{% url 'library:detail' elem.book.id %}">{{ elem.book.title }}</a></li>
+                    </figcaption>
+                </figure>
+            {% endfor %}
+        {% else %}
+            <p>There are no books.</p>
+        {% endif %}
+    </div>
+    <div class="content">
+        {% if elements.has_other_pages %}
+            <ul class="pagination">
+                {% if elements.has_previous %}
+                    <li><a href="?page=1">1</a></li>
+                    <li><a href="?page={{ elements.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in page_range %}
+                    {% if elements.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if elements.has_next %}
+                    <li><a href="?page={{ elements.next_page_number }}">&raquo;</a></li>
+                    <li><a href="?page={{ last }}">last</a></li>
+                {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

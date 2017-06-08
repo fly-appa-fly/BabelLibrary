@@ -46,8 +46,43 @@ def index(request):
     return render(request, 'library/index.html', context)
 
 
-def list_index(request, list_id):
-    return HttpResponse("You're looking at list %s" % list_id)
+@login_required
+def private_index(request):
+    query = request.GET.get('q', '')
+    if query:
+        qset = (
+            Q(title__icontains=query) |
+            Q(author__first_name__icontains=query) |
+            Q(author__last_name__icontains=query) |
+            Q(tags__name__icontains=query)
+        )
+        results = Book.objects.filter(qset).filter(private=True, publisher=request.user).distinct()
+
+    else:
+        results = Book.objects.order_by('-pub_date').filter(private=True, publisher=request.user)
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(results, 10)
+
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+
+    index_ = books.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index_ - 3 if index_ >= 3 else 0
+    end_index = index_ + 4 if index_ <= max_index - 4 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+
+    context = {
+        'books': books,
+        'page_range': page_range,
+        'last': max_index
+    }
+    return render(request, 'library/private.html', context)
 
 
 def author(request, author_id):
@@ -148,6 +183,49 @@ def lists(request, list_name, book_id):
     else:
         list_entry[0].delete()
     return redirect('/book/' + book_id)
+
+
+@login_required
+def list_index(request, list_name):
+    list = List.objects.filter(user=request.user, name=list_name)[0]
+    list_entries = ListEntry.objects.filter(list=list)
+
+    query = request.GET.get('q', '')
+    if query:
+        qset = (
+            Q(book__title__icontains=query) |
+            Q(book__author__first_name__icontains=query) |
+            Q(book__author__last_name__icontains=query) |
+            Q(book__tags__name__icontains=query)
+        )
+        results = list_entries.filter(qset).distinct()
+
+    else:
+        results = list_entries.order_by('-time')
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(results, 10)
+
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+
+    index_ = books.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index_ - 3 if index_ >= 3 else 0
+    end_index = index_ + 4 if index_ <= max_index - 4 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+
+    context = {
+        'elements': books,
+        'page_range': page_range,
+        'last': max_index,
+        'list_name': list_name
+    }
+    return render(request, 'library/list_index.html', context)
 
 
 @login_required
