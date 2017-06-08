@@ -31,6 +31,9 @@
             <a href="{% url 'library:edit' book.id %}">
                 Edit this book
             </a><br>
+            <a href="{% url 'library:delete' book.id %}">
+                Delete this book
+            </a><br>
         {% endif %}
         <h3>{{ book.title }} {% if book.private %}(private){% endif %}</h3> <br>
         {% if book.cover %}

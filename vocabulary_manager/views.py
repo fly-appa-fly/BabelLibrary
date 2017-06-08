@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.db.models import Q
 from .models import *
@@ -39,4 +39,14 @@ def index(request):
         'page_range': page_range,
         'last': max_index
     }
-    return render(request, 'dictionary_manager/index.html', context)
+    return render(request, 'vocabulary_manager/index.html', context)
+
+
+@login_required
+def delete(request, v_word_id, word_id):
+    v_word = get_object_or_404(VocabularyWord, pk=v_word_id)
+
+    if request.user == v_word.user:
+        v_word.delete()
+        return redirect('/dict/word' + word_id)
+    return redirect('/')

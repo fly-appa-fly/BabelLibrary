@@ -24,6 +24,11 @@
 {% block content %}
     <div class="content">
         <h3>{{ word.word.title }}</h3> <br>
+        {% if v_word %}
+            <a href="{% url 'vocabulary:delete' v_word.pk word.pk %}">
+                Delete this word from your vocabulary
+            </a><br>
+        {% endif %}
         {% for defins in word.definitions.all %}
             {{ defins.type }}<br>
             {% for defin in defins.definitions.all %}

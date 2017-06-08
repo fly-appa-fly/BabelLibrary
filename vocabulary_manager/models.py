@@ -14,3 +14,6 @@ class VocabularyWord(models.Model):
 
     def __str__(self):
         return self.word.word
+
+    def code(self):
+        return self.word_id

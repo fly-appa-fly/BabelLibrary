@@ -31,3 +31,6 @@ class Word(models.Model):
 
     def __str__(self):
         return self.word
+
+    def index(self):
+        return self.pk

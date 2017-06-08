@@ -25,8 +25,8 @@
         {% endif %}
         {% if words %}
             <ul>
-            {% for word in words %}
-                <li><a href="{% url 'dict:detail' word.word.id %}">{{ word.word }}</a></li>
+            {% for v in words %}
+                <li><a href="{% url 'dict:detail' v.code %}">{{ v }}</a></li>
             {% endfor %}
             </ul>
         {% else %}

@@ -153,7 +153,7 @@ def lists(request, list_name, book_id):
 @login_required
 def edit_book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
-    if request.user != book.publisher:
+    if request.user != book.publisher or request.user.is_superuser:
         return redirect('/')
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES, instance=book)
@@ -182,3 +182,11 @@ def edit_book(request, book_id):
         form.fields['language'].choices = lang_choices
         form1 = AuthorForm(instance=book.author)
     return render(request, 'library/add_book.html', {'form': form, 'form1': form1})
+
+
+def delete_book(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+    if request.user != book.publisher or (request.user.is_superuser and (not book.private)):
+        return redirect('/')
+    book.delete()
+    return redirect('/')

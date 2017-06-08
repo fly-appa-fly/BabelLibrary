@@ -9,7 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.shortcuts import render, get_object_or_404
-
+from vocabulary_manager.models import VocabularyWord
 
 def get_text(node):
     if node.nodeType == node.TEXT_NODE:
@@ -101,8 +101,17 @@ def index(request):
 
 def detail(request, word_id):
     word = get_object_or_404(Word, pk=word_id)
+
+    if request.user.is_authenticated:
+        v_word = VocabularyWord.objects.filter(word=word, user=request.user)
+        if len(v_word) != 0:
+            v_word = v_word[0]
+        else:
+            v_word = None
+
     context = {
         'word': word,
+        'v_word': v_word
     }
     return render(request, 'dictionary_manager/detail.html', context)
 
