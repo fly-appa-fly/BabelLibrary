@@ -1,3 +1,4 @@
+import simplejson as simplejson
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
@@ -28,31 +29,25 @@ def open_book(request, book_id):
 
 def get_word(request, word):
     if request.is_ajax():
-        # app_id = '17103d8c'
-        # app_key = 'f21dbbc42b922a35c295f67b81459774'
-        # language = 'en'
-        # url = 'https://od-api.oxforddictionaries.com:443/api/v1/entries/' + language + '/' + word.lower()
-        #
-        # r = requests.get(url, headers = {'app_id': app_id, 'app_key': app_key})
-        #
-        # url = 'https://od-api.oxforddictionaries.com:443/api/v1/morphology/' + language + '/' + word.lower()
-        #
-        # r1 = requests.get(url, headers = {'app_id': app_id, 'app_key': app_key})
         word = word.lower()
-        word_object = []
-        words = Word.objects.filter(word__contains=word)
-        for w in words:
-            if (word == w.word) or (word == w.word+'s') or (word == w.word+'es') or (word == w.word+'d') or (word == w.word+'ed'):
-                word_object.append(w)
-        data = ''
-        if word_object is not []:
+        word_object = None
+        words = Word.objects.filter(word=word)
 
-            for defins in word_object.definitions.all().order_by('pk'):
+        for i in range(4):
+            if i == 0:
+                words = Word.objects.filter(word=word)
+            else:
+                words = Word.objects.filter(word=word[:-i])
+            if len(words) != 0:
+                break
+        data = ''
+        for w in words:
+            for defins in w.definitions.all().order_by('pk'):
                 data += defins.type + ' <br>'
                 for defin in defins.definitions.all().order_by('pk'):
-                    data +=  defin.definition + ' <br>'
+                    data += defin.definition + ' <br>'
                 data += ' <br>'
-        else:
+        if data == '':
             data = word + " isn't in the dictionary"
     else:
         data = ''
@@ -62,22 +57,23 @@ def get_word(request, word):
 @login_required
 @csrf_exempt
 def add_word(request, word):
-    print('sssss')
+    # print('sssss')
     if request.is_ajax():
         word = word.lower()
         word_object = None
         words = Word.objects.filter(word__contains=word)
-        for w in words:
-            if (word == w.word) or (word == w.word+'s') or (word == w.word+'es') or (word == w.word+'d') or (word == w.word+'ed'):
-                word_object = w
+        for i in range(4):
+            if i == 0:
+                words = Word.objects.filter(word=word)
+            else:
+                words = Word.objects.filter(word=word[:-i])
+            if len(words) != 0:
                 break
-        data = ''
-        if word_object is not None and len(word_object.vocabularyword_set.filter(user=request.user)) == 0:
+        for word in words:
             vocab_word = VocabularyWord()
-            vocab_word.word = word_object
+            vocab_word.word = word
             vocab_word.user = request.user
-            vocab_word.state = 0.
-            vocab_word.language = word_object.language
+            vocab_word.language = word.language
             vocab_word.save()
-    print('ddddd')
+    # print('ddddd')
     return HttpResponse('done')

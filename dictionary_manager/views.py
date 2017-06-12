@@ -101,7 +101,6 @@ def index(request):
 
 def detail(request, word_id):
     word = get_object_or_404(Word, pk=word_id)
-
     if request.user.is_authenticated:
         v_word = VocabularyWord.objects.filter(word=word, user=request.user)
         if len(v_word) != 0:
@@ -117,4 +116,4 @@ def detail(request, word_id):
 
 
 def get_word(request, word):
-    return HttpResponse('ssssss')
+    return HttpResponse('empty')

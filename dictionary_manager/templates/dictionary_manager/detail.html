@@ -28,6 +28,12 @@
             <a href="{% url 'vocabulary:delete' v_word.pk word.pk %}">
                 Delete this word from your vocabulary
             </a><br>
+            Last review: {{ v_word.last_review.date }}<br>
+            Next review: {{ v_word.next_time.date }}<br>
+            Reviews: {{ v_word.repetitions }}<br>
+            Easines: {{ v_word.easiness_factor }}
+        {% else %}
+            <a href="{% url 'vocabulary:add' word.pk %}">Add this word to your vocabulary</a>
         {% endif %}
         {% for defins in word.definitions.all %}
             {{ defins.type }}<br>

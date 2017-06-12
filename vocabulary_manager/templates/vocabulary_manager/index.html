@@ -15,6 +15,7 @@
 
 {% block content %}
     <div class="content">
+        <h3><a href="{% url 'vocabulary:test' %}">Review words({{ quantity }})</a> </h3>
         <form action="." method="get">
             <label for="q">Search: </label>
             <input type="text" name="q", value="{{ query|escape }}">
@@ -26,7 +27,7 @@
         {% if words %}
             <ul>
             {% for v in words %}
-                <li><a href="{% url 'dict:detail' v.code %}">{{ v }}</a></li>
+                <li><a href="{% url 'dict:detail' v.word_id %}">{% if v.next_time.date == today %}<b>{{ v }}</b>{% else %}{{ v }}{% endif %}</a></li>
             {% endfor %}
             </ul>
         {% else %}

@@ -33,15 +33,20 @@
     display: block;
     white-space: pre-line;
     margin: auto;
-    overflow: auto;
-    overflow-y: scroll;
-    overflow: hidden;
+{#    overflow: auto;#}
+{#    overflow-y: scroll;#}
+{#    overflow: hidden;#}
 }
 </style>
 {% endblock %}
 
 {% block content %}
 {% csrf_token %}
+{#    <ul class="pagination">#}
+{#        <li><span id="left">&laquo;</span></li>#}
+{#        <li><span id="right">&raquo;</span></li>#}
+{##}
+{#    </ul>#}
     <div id="text" class="content">
         {{ book.content.read }}
     </div>
@@ -74,12 +79,13 @@ $(".word").click(function () {
          "Add": function() {
 
              $.ajax({
-                 "type": "POST",
-                 "dataType": "json",
-                 "url": "/reader/add_word/" + word + "/",
-                 "data": {'word': word},
+                 type: "POST",
+                 dataType: "json",
+                 url: "/reader/add_word/" + word + "/",
+                 data: {'word': word, 'lang': {{ book.language_id }}},
                  "success": function (result) {
                      console.log(result);
+                     console.log("{{ book.language }}");
                      wword.removeClass("word");
                      wword.addClass("chosen");
                  }

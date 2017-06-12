@@ -1,0 +1,40 @@
+{% extends 'library/base.html' %}
+
+{% block title %}
+{{ Test }}
+{% endblock %}
+
+{% block style %}
+    <style>
+        .content {
+            width: 70%;
+            margin: auto;
+            white-space: pre-line;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        {% if question %}
+
+{#            {% for word, answer in list %}#}
+                <h3><b>{{ question }}</b></h3>
+                {% if error_messagemessage %}<p><strong>{{ error_messagemessage }}</strong></p>{% endif %}
+                <form action="{% url 'vocabulary:vote' %}" method="post">
+                {% csrf_token %}
+                {% for ans in answer %}
+                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ ans.0 }}"/>
+                    <label for="choice{{ forloop.counter }}"> {{ ans.1.0 }}</label><br>
+                {% endfor %}
+                <input type="submit", value="Vote" />
+                </form>
+{#            {% endfor %}#}
+
+
+        {% else %}
+            There are no more words fo today
+        {% endif %}
+
+    </div>
+{% endblock %}

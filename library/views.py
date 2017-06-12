@@ -101,28 +101,31 @@ def detail(request, book_id):
     edit = False
 
     book = get_object_or_404(Book, pk=book_id)
-    list = List.objects.filter(user=request.user, name='Favourite')[0]
-    list_entry = ListEntry.objects.filter(book=book, list=list)
 
-    if len(list_entry) != 0:
-        fav = True
+    if request.user.is_authenticated:
 
-    book = get_object_or_404(Book, pk=book_id)
-    list = List.objects.filter(user=request.user, name='Reading')[0]
-    list_entry = ListEntry.objects.filter(book=book, list=list)
+        list = List.objects.filter(user=request.user, name='Favourite')[0]
+        list_entry = ListEntry.objects.filter(book=book, list=list)
 
-    if len(list_entry) != 0:
-        read = True
+        if len(list_entry) != 0:
+            fav = True
 
-    book = get_object_or_404(Book, pk=book_id)
-    list = List.objects.filter(user=request.user, name='Future')[0]
-    list_entry = ListEntry.objects.filter(book=book, list=list)
+        book = get_object_or_404(Book, pk=book_id)
+        list = List.objects.filter(user=request.user, name='Reading')[0]
+        list_entry = ListEntry.objects.filter(book=book, list=list)
 
-    if len(list_entry) != 0:
-        fut = True
+        if len(list_entry) != 0:
+            read = True
 
-    if request.user == book.publisher or request.user.is_superuser:
-        edit = True
+        book = get_object_or_404(Book, pk=book_id)
+        list = List.objects.filter(user=request.user, name='Future')[0]
+        list_entry = ListEntry.objects.filter(book=book, list=list)
+
+        if len(list_entry) != 0:
+            fut = True
+
+        if request.user == book.publisher or request.user.is_superuser:
+            edit = True
 
     context = {
         'book': book,

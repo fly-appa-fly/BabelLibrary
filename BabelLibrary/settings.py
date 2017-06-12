@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 'material.admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     'user_manager',
     'vocabulary_manager',
     'testing_module',
+    # 'material',
+    # 'material.frontend',
 ]
 
 MIDDLEWARE = [
